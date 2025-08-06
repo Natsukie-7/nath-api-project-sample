@@ -1,34 +1,56 @@
-import mongoose from 'mongoose';
+// src/models/subscription.model.ts
 
-const subscriptionSchema = new mongoose.Schema(
+import mongoose, { Document, Model, Schema } from 'mongoose';
+
+export interface Subscription extends Document {
+  name: string;
+  price: number;
+  currency: 'USD' | 'EUR' | 'BRL';
+  frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  category:
+    | 'sports'
+    | 'entertainment'
+    | 'education'
+    | 'health'
+    | 'polityc'
+    | 'other';
+  paymentMethod:
+    | 'credit_card'
+    | 'debit_card'
+    | 'paypal'
+    | 'pix'
+    | 'bank_transfer';
+  status: 'active' | 'inactive' | 'expired';
+  startDate: Date;
+  renewalDate: Date;
+  user: mongoose.Types.ObjectId;
+}
+
+const subscriptionSchema = new Schema<Subscription>(
   {
     name: {
       type: String,
       required: [true, 'Subscription name is required'],
       trim: true,
-      minLength: 2,
-      maxLength: 100,
+      minlength: 2,
+      maxlength: 100,
     },
-
     price: {
       type: Number,
       required: [true, 'Subscription price is required'],
       min: [0, 'Price must be greater than 0'],
     },
-
     currency: {
       type: String,
       enum: ['USD', 'EUR', 'BRL'],
       default: 'BRL',
     },
-
     frequency: {
       type: String,
       enum: ['daily', 'weekly', 'monthly', 'yearly'],
-      required: [true, 'Subscription frequency is required'],
+      required: true,
       default: 'monthly',
     },
-
     category: {
       type: String,
       enum: [
@@ -39,74 +61,75 @@ const subscriptionSchema = new mongoose.Schema(
         'polityc',
         'other',
       ],
-      required: [true, 'Subscription category is required'],
+      required: true,
     },
-
     paymentMethod: {
       type: String,
       enum: ['credit_card', 'debit_card', 'paypal', 'pix', 'bank_transfer'],
-      required: [true, 'Payment method is required'],
+      required: true,
       trim: true,
     },
-
     status: {
       type: String,
       enum: ['active', 'inactive', 'expired'],
       default: 'active',
     },
-
     startDate: {
       type: Date,
-      required: [true, 'Start date is required'],
+      required: true,
       validate: {
-        validator: (value) => value <= new Date(),
-        message: 'Start date cannot be in the past',
+        validator: (value: Date) => value <= new Date(),
+        message: 'Start date cannot be in the future',
       },
     },
-
-    reneawlDate: {
+    renewalDate: {
       type: Date,
       validate: {
-        validator: function (value) {
+        validator(this: Subscription, value: Date) {
           return value > this.startDate;
         },
         message: 'Renewal date must be after start date',
       },
     },
-
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'User is required'],
+      required: true,
       index: true,
     },
   },
-  { timeStamps: true }
+  {
+    timestamps: true,
+  }
 );
 
+// ✅ Lógica para calcular renovação ou expiração automática
 subscriptionSchema.pre('save', function (next) {
-  // Auto-calculate renewal date
-  if (!this.reneawlDate) {
-    const renewalPeriods = {
+  const subscription = this as Subscription;
+
+  if (!subscription.renewalDate) {
+    const renewalDays = {
       daily: 1,
       weekly: 7,
       monthly: 30,
       yearly: 365,
     };
 
-    this.reneawlDate = new Date(this.startDate);
-    this.reneawlDate.setDate(
-      this.reneawlDate.getDate() + renewalPeriods[this.frequency]
-    );
-  } else if (this.reneawlDate < new Date()) {
-    // Auto update if renew date has passed
+    const days = renewalDays[subscription.frequency];
+    const newDate = new Date(subscription.startDate);
+    newDate.setDate(newDate.getDate() + days);
 
-    this.status = 'expired';
+    subscription.renewalDate = newDate;
+  } else if (subscription.renewalDate < new Date()) {
+    subscription.status = 'expired';
   }
 
   next();
 });
 
-const Subscription = mongoose.model('Subscription', subscriptionSchema);
+const Subscription: Model<Subscription> = mongoose.model(
+  'Subscription',
+  subscriptionSchema
+);
 
 export default Subscription;

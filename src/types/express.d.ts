@@ -32,8 +32,12 @@ declare global {
     next: NextFunction
   ) => HandlerReturn<ResBody> | Promise<HandlerReturn<ResBody>>;
 
-  export type GetRequest<Params = unknown, ResBody = unknown> = (
-    req: Request<Params, ResBody, undefined, Params>,
+  export type GetRequest<
+    Params = unknown,
+    ResBody = unknown,
+    Query = unknown,
+  > = (
+    req: Request<Params, ResBody, undefined, Query>,
     res: Response,
     next: NextFunction
   ) => HandlerReturn<ResBody> | Promise<HandlerReturn<ResBody>>;

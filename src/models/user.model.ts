@@ -1,33 +1,43 @@
-import mongoose from 'mongoose';
+// src/models/user.model.ts
 
-const userSchema = new mongoose.Schema(
+import mongoose, { Document, Model, Schema } from 'mongoose';
+
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+}
+
+const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
       required: [true, 'User name is required'],
       trim: true,
-      minLenght: 2,
-      maxLenght: 50,
+      minlength: [2, 'Name must be at least 2 characters'],
+      maxlength: [50, 'Name must be at most 50 characters'],
     },
     email: {
       type: String,
       required: [true, 'User email is required'],
       unique: true,
       trim: true,
-      minLenght: 2,
-      maxLenght: 50,
+      minlength: [2, 'Email must be at least 2 characters'],
+      maxlength: [50, 'Email must be at most 50 characters'],
       lowercase: true,
-      match: [/\S+@\S+\.\S+/, 'Please fill a valid email address'],
+      match: [/\S+@\S+\.\S+/, 'Please provide a valid email address'],
     },
     password: {
       type: String,
       required: [true, 'User password is required'],
-      minLenght: 4,
+      minlength: [4, 'Password must be at least 4 characters'],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true, // ✅ Corrigido
+  }
 );
 
-const User = mongoose.model('User', userSchema);
+const User: Model<IUser> = mongoose.model<IUser>('User', userSchema);
 
 export default User;

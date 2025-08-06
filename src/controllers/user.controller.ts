@@ -7,7 +7,7 @@ export const getUsers: GetRequest = async (req, res, next) => {
   return { status: 200, data: { users } };
 };
 
-interface GetUser {
+export interface GetUser {
   id: string;
 }
 export const getUser: GetRequest<GetUser> = async (req, res, next) => {

@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
 import ENV from '@config/env.ts';
-import { NextFunction, Request, Response } from 'express';
 import HttpError from 'utils/httpError.ts';
 import User from '../models/user.model.ts';
 
@@ -83,8 +82,4 @@ export const signIn: PostRequest<SignIn> = async (req, res) => {
   };
 };
 
-export const signOut = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {};
+export const signOut: PostRequest = async (req, res, next) => ({});

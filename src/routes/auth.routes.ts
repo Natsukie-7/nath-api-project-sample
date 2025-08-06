@@ -4,8 +4,8 @@ import { signIn, signOut, signUp } from '../controllers/auth.controller.ts';
 
 const authRouter = Router();
 
-authRouter.post('/sign-up', signUp);
+authRouter.post('/sign-up', createRoute(signUp));
 authRouter.post('/sign-in', createRoute(signIn));
-authRouter.post('/sign-out', signOut);
+authRouter.post('/sign-out', createRoute(signOut));
 
 export default authRouter;
