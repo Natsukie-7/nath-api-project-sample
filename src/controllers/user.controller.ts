@@ -1,3 +1,4 @@
+import HttpError from 'utils/httpError.ts';
 import User from '../models/user.model.ts';
 
 export const getUsers: GetRequest = async (req, res, next) => {
@@ -15,9 +16,7 @@ export const getUser: GetRequest<GetUser> = async (req, res, next) => {
   const user = await User.findById(id).select('-password');
 
   if (!(user instanceof User)) {
-    const error = new Error('User not found');
-    error.statusCode = 404;
-    throw error;
+    throw new HttpError({ message: 'User not found', statusCode: 404 });
   }
 
   return {

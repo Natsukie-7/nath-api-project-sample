@@ -1,5 +1,5 @@
 export interface HttpErrorOptions {
-  message: string;
+  message?: string;
   statusCode?: number;
 }
 

@@ -1,4 +1,4 @@
-import { SignOptions } from 'jsonwebtoken';
+import { Secret, SignOptions } from 'jsonwebtoken';
 
 declare global {
   namespace NodeJS {
@@ -6,7 +6,7 @@ declare global {
       PORT: string;
       NODE_ENV: 'production' | 'development';
       DB_URI: string;
-      JWT_SECRET: string;
+      JWT_SECRET: Secret;
       JWT_EXPIRES_IN: SignOptions['expiresIn'];
     }
   }

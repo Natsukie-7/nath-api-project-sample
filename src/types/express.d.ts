@@ -2,6 +2,12 @@
 import type { NextFunction, Request, Response } from 'express';
 
 declare global {
+  namespace Express {
+    interface Request {
+      user?: UserDocument; // ou o tipo correto do seu usuário
+    }
+  }
+
   interface Error {
     statusCode?: number;
     code?: number;
