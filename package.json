@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "tsx watch src/app.ts",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/cookie-parser": "^1.4.9",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -20,13 +22,14 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
-    "@types/node": "^24.1.0",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.2.0",
     "globals": "^16.3.0",
     "jiti": "^2.5.1",
-    "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }
