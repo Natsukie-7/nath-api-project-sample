@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
+    "build": "npx tsc --project tsconfig.json",
     "dev": "tsx watch src/app.ts",
     "type-check": "tsc --noEmit"
   },

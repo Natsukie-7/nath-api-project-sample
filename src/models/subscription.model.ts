@@ -23,7 +23,7 @@ export interface Subscription extends Document {
   status: 'active' | 'inactive' | 'expired';
   startDate: Date;
   renewalDate: Date;
-  user: mongoose.Types.ObjectId;
+  user: mongoose.Schema.Types.ObjectId;
 }
 
 const subscriptionSchema = new Schema<Subscription>(

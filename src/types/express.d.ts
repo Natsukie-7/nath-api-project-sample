@@ -1,10 +1,11 @@
 // src/types/express.d.ts
+import { UserDocument } from '@models/user.model.ts';
 import type { NextFunction, Request, Response } from 'express';
 
 declare global {
   namespace Express {
     interface Request {
-      user?: UserDocument; // ou o tipo correto do seu usuário
+      user?: UserDocument;
     }
   }
 
