@@ -3,11 +3,9 @@
 import type { NextFunction, Request, Response } from 'express';
 
 export const createRoute =
-  <Params = any, ResBody = any, ReqBody = any, Query = any>(
-    handler: LoadRequest<Params, ResBody, ReqBody, Query>
-  ) =>
+  (handler: LoadRequest) =>
   async (
-    req: Request<Params, ResBody, ReqBody, Query>,
+    req: Request<unknown, unknown, unknown, unknown>,
     res: Response,
     next: NextFunction
   ) => {
