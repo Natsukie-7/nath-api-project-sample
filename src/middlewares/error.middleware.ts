@@ -1,40 +1,46 @@
-const errorMiddleware = (err, req, res, next) => {
-  try {
-    let error = { ...err };
+// src/middlewares/error.middleware.ts
 
-    error.message = err.message;
+import type { NextFunction, Request, Response } from 'express';
 
-    // Mongoose bad ObjectId error
-    if (err.name === 'CastError') {
-      const message = `Resource not found`;
+// Tipagem opcional de erro customizado
+interface CustomError extends Error {
+  statusCode?: number;
+  code?: number;
+  errors?: Record<string, { message: string }>;
+}
 
-      error = new Error(message);
-      error.statusCode = 404;
-    }
+const errorMiddleware = (
+  err: CustomError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  let statusCode = err.statusCode || 500;
+  let message = err.message || 'Internal Server Error';
 
-    // Mongoose duplicate key error
-    if (err.code === 11000) {
-      const message = 'Duplicate field value entered';
-      error = new Error(message);
-      error.statusCode = 400;
-    }
-
-    // Moongose validation error
-    if (err.name === 'ValidationError') {
-      const message = Object.values(err.errors)
-        .map(({ message }) => message)
-        .join(', ');
-      error = new Error(message);
-      error.statusCode = 400;
-    }
-
-    res.status(error.statusCode || 500).json({
-      success: false,
-      error: error.message || 'Internal Server Error',
-    });
-  } catch (error) {
-    next(error);
+  // Mongoose bad ObjectId error
+  if (err.name === 'CastError') {
+    statusCode = 404;
+    message = 'Resource not found';
   }
+
+  // Mongoose duplicate key error
+  if (err.code === 11000) {
+    statusCode = 400;
+    message = 'Duplicate field value entered';
+  }
+
+  // Mongoose validation error
+  if (err.name === 'ValidationError' && err.errors) {
+    const messages = Object.values(err.errors).map(({ message }) => message);
+    message = messages.join(', ');
+    statusCode = 400;
+  }
+
+  res.status(statusCode).json({
+    success: false,
+    message,
+  });
 };
 
 export default errorMiddleware;

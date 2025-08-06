@@ -1,29 +1,27 @@
 import User from '../models/user.model.ts';
 
-export const getUsers = async (req, res, next) => {
-  try {
-    const users = await User.find().select('-password');
+export const getUsers: GetRequest = async (req, res, next) => {
+  const users = await User.find().select('-password');
 
-    res.status(200).json({ success: true, data: users });
-  } catch (error) {
-    next(error);
-  }
+  return { status: 200, data: { users } };
 };
 
-export const getUser = async (req, res, next) => {
-  try {
-    const { id } = req.params;
+interface GetUser {
+  id: string;
+}
+export const getUser: GetRequest<GetUser> = async (req, res, next) => {
+  const { id } = req.params;
 
-    const user = await User.findById(id).select('-password');
+  const user = await User.findById(id).select('-password');
 
-    if (!(user instanceof User)) {
-      const error = new Error('User not found');
-      error.statusCode = 404;
-      throw error;
-    }
-
-    res.status(200).json({ success: true, data: user });
-  } catch (error) {
-    next(error);
+  if (!(user instanceof User)) {
+    const error = new Error('User not found');
+    error.statusCode = 404;
+    throw error;
   }
+
+  return {
+    status: 200,
+    data: user,
+  };
 };
