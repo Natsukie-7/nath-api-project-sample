@@ -1,10 +1,10 @@
-import ENV from '@config/env.ts';
-import connectToDatabase from '@database/mongodb.ts';
-import arcjetMiddleware from '@middlewares/arcjet.middleware.ts';
-import errorMiddleware from '@middlewares/error.middleware.ts';
-import authRouter from '@routes/auth.routes.ts';
-import subscriptionRouter from '@routes/subscription.routes.ts';
-import userRouter from '@routes/user.routes.ts';
+import ENV from '@config/env';
+import connectToDatabase from '@database/mongodb';
+import arcjetMiddleware from '@middlewares/arcjet.middleware';
+import errorMiddleware from '@middlewares/error.middleware';
+import authRouter from '@routes/auth.routes';
+import subscriptionRouter from '@routes/subscription.routes';
+import userRouter from '@routes/user.routes';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 

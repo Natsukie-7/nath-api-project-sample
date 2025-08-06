@@ -1,7 +1,7 @@
-import { getUser, getUsers } from '@controllers/user.controller.ts';
-import { createRoute } from '@utils/createRoute.ts';
+import { getUser, getUsers } from '@controllers/user.controller';
+import authorized from '@middlewares/auth.middleware';
+import { createRoute } from '@utils/createRoute';
 import { Router } from 'express';
-import authorized from '../middlewares/auth.middleware.ts';
 
 const userRouter = Router();
 

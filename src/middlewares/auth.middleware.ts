@@ -1,7 +1,7 @@
-import ENV from '@config/env.ts';
+import ENV from '@config/env';
+import User from '@models/user.model';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model.ts';
 
 const { JWT_SECRET } = ENV;
 

@@ -1,6 +1,6 @@
-import { createSubscription } from '@controllers/subscription.controller.ts';
-import authorized from '@middlewares/auth.middleware.ts';
-import { createRoute } from '@utils/createRoute.ts';
+import { createSubscription } from '@controllers/subscription.controller';
+import authorized from '@middlewares/auth.middleware';
+import { createRoute } from '@utils/createRoute';
 import { Router } from 'express';
 
 const subscriptionRouter = Router();

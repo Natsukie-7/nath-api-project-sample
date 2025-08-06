@@ -1,5 +1,5 @@
 // src/types/express.d.ts
-import { UserDocument } from '@models/user.model.ts';
+import { UserDocument } from '@models/user.model';
 import type { NextFunction, Request, Response } from 'express';
 
 declare global {

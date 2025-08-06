@@ -1,7 +1,7 @@
 import Subscription, {
   type Subscription as SubscriptionParams,
-} from '@models/subscription.model.ts';
-import HttpError from '@utils/httpError.ts';
+} from '@models/subscription.model';
+import HttpError from '@utils/httpError';
 
 interface CreateSubscription {
   name: string;
