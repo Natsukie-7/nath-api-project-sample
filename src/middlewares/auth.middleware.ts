@@ -1,5 +1,6 @@
 import ENV from '@config/env';
 import User from '@models/user.model';
+import Authorization from '@utils/authorization';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -33,7 +34,7 @@ const authorized = async (req: Request, res: Response, next: NextFunction) => {
       });
     }
 
-    req.user = user;
+    Authorization.configure(user);
 
     next();
   } catch (error: any) {

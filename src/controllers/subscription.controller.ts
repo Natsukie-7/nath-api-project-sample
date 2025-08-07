@@ -1,7 +1,7 @@
 import Subscription, {
   type Subscription as SubscriptionParams,
 } from '@models/subscription.model';
-import HttpError from '@utils/httpError';
+import Authorization from '@utils/authorization';
 
 interface CreateSubscription {
   name: string;
@@ -16,11 +16,8 @@ export const createSubscription: PostRequest<CreateSubscription> = async (
   req,
   res
 ) => {
-  const user = req.user;
-
-  if (!user) {
-    throw new HttpError({ message: 'usuario não encontrado', statusCode: 412 });
-  }
+  const authorization = Authorization.getInstance();
+  const user = authorization.getUser();
 
   const { _id } = user;
   const body = req.body;
@@ -34,4 +31,15 @@ export const createSubscription: PostRequest<CreateSubscription> = async (
     status: 201,
     data: subscription,
   };
+};
+
+interface GetAllSubscription {}
+export const GetAllSubscription: GetRequest<GetAllSubscription> = (
+  req,
+  res
+) => {
+  const authorization = Authorization.getInstance();
+  const user = authorization.getUser();
+
+  return {};
 };
