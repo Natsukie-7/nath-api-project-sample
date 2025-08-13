@@ -1,5 +1,5 @@
-import HttpError from 'utils/httpError.ts';
-import User from '../models/user.model.ts';
+import User from '@models/user.model';
+import HttpError from 'utils/httpError';
 
 export const getUsers: GetRequest = async (req, res, next) => {
   const users = await User.find().select('-password');

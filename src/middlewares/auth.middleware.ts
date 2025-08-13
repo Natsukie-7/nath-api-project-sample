@@ -1,9 +1,10 @@
-import ENV from '@config/env.ts';
+import ENV from '@config/env';
+import User from '@models/user.model';
+import Authorization from '@utils/authorization';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model.ts';
 
-const { JWT_SECRET, JWT_EXPIRES_IN } = ENV;
+const { JWT_SECRET } = ENV;
 
 const authorized = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -24,9 +25,16 @@ const authorized = async (req: Request, res: Response, next: NextFunction) => {
 
     const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
 
-    const user = await User.findById(decoded.id);
+    const user = await User.findById(decoded.userId);
 
-    req.user = user;
+    if (!user) {
+      return res.status(412).json({
+        message: 'Usuario não autorizado',
+        error: 'usuario não fornecido',
+      });
+    }
+
+    Authorization.configure(user);
 
     next();
   } catch (error: any) {

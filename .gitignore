@@ -60,6 +60,7 @@ typings/
 
 *.vscode
 .prettierrc
+/dist
 
 # next.js build output
 .next

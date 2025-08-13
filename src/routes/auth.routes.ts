@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { createRoute } from 'utils/createRoute.ts';
-import { signIn, signOut, signUp } from '../controllers/auth.controller.ts';
+import { createRoute } from 'utils/createRoute';
+import { signIn, signOut, signUp } from '../controllers/auth.controller';
 
 const authRouter = Router();
 

@@ -37,10 +37,14 @@ const errorMiddleware = (
     statusCode = 400;
   }
 
-  res.status(statusCode).json({
+  const response: Record<string, any> = {
     success: false,
     message,
-  });
+  };
+
+  console.log('error on', err.cause);
+
+  res.status(statusCode).json(response);
 };
 
 export default errorMiddleware;

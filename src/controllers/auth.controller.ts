@@ -1,10 +1,9 @@
+import ENV from '@config/env';
+import User from '@models/user.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-
-import ENV from '@config/env.ts';
-import HttpError from 'utils/httpError.ts';
-import User from '../models/user.model.ts';
+import HttpError from 'utils/httpError';
 
 const { JWT_SECRET, JWT_EXPIRES_IN } = ENV;
 
