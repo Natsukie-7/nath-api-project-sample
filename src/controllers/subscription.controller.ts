@@ -34,12 +34,14 @@ export const createSubscription: PostRequest<CreateSubscription> = async (
 };
 
 interface GetAllSubscription {}
-export const GetAllSubscription: GetRequest<GetAllSubscription> = (
+export const GetUserSubscriptions: GetRequest<GetAllSubscription> = async (
   req,
   res
 ) => {
   const authorization = Authorization.getInstance();
   const user = authorization.getUser();
 
-  return {};
+  const subscriptions = await Subscription.find({ user: user.id });
+
+  return { data: subscriptions };
 };
